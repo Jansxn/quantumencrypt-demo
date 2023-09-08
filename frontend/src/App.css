@@ -38,18 +38,22 @@
   gap: 7px;
 }
 
+.box .privkey{
+  flex-direction: column;
+}
+
 .box .b-value div{
   display: inline;
 } 
 
-button{
-  background-color: #a2a7ac;
-  border: 2px solid #a2a7ac;
-  border-radius: 5px;
-  text-align: center;
-  padding: 5px;
-  color: #000000;
-  font-weight: 700;
-  cursor: pointer;
-  transition: 0.3s;
+textarea{
+  resize: vertical;
+}
+
+.multi-in{
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 10px;
 }

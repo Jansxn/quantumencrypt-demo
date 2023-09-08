@@ -1,12 +1,22 @@
-import logo from './logo.svg';
 import './App.css';
+
 import Keys from './components/Keys.js/Keys';
+import Navbar from './components/Navbar/Navbar';
+import Signatures from './components/Signatures/Signatures';
+
+import {Route, Routes} from 'react-router-dom';
+
 
 function App() {
 
   return (
     <div className="App">
-      <Keys />
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Keys />}/>
+        <Route path="/keys" element={<Keys />}/>
+        <Route path="/signatures" element={<Signatures />}/>
+      </Routes>
     </div>
   );
 }

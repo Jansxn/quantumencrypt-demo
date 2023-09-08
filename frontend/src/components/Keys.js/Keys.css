@@ -1,0 +1,11 @@
+key-button{
+    background-color: #a2a7ac;
+    border: 2px solid #a2a7ac;
+    border-radius: 5px;
+    text-align: center;
+    padding: 5px;
+    color: #000000;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+}

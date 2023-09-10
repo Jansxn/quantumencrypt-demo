@@ -32,7 +32,7 @@ export const verifySignature = async (message, pk, signed) => {
       signed
     });
     console.log(response.data.message)
-    // return response
+    return response
   } catch (error) {
     console.error(error);
   }

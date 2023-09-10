@@ -5,9 +5,10 @@ import {useState} from "react";
 export default function Signatures() {
     var [privateKey, setPrivateKey] = useState([["Generate Private Key"]]);
     var [publicKey, setPublicKey] = useState(["Generate Public Key"]);
-    var [message, setMessage] = useState(["Message"]);
+    var [message, setMessage] = useState("Message");
     var [signature, setSignature] = useState(["Signature"]);
     var [verified, setVerified] = useState("Verify");
+    var [message2, setMessage2] = useState("Message");
 
     const updateKeys = async() =>{
         generateKyberKeys().then((pk_sk) => {
@@ -21,13 +22,12 @@ export default function Signatures() {
         getSignature(message, privateKey).then((sign) => {
             setSignature(sign.data.signed);
             // setSignature(sign);
-            // console.log(signature);
         });
     }
 
     const verifySign = async() =>{
-        verifySignature(message, privateKey, signature).then((response) => {
-            setVerified(response)
+        verifySignature(message2, publicKey, signature).then((response) => {
+            setVerified(response.data.message)
         });
     }
 
@@ -46,7 +46,7 @@ export default function Signatures() {
                 Private Key
                 <div className="multi-in">
                     <div className = "b-value sign-priv privkey">
-                        {privateKey.map((item, index) => <div key={index}>{item.map((i, ind) => <div key = {ind}>{i}, </div>)} </div>)}
+                        {privateKey}
                     </div>
                     <button onClick={updateKeys} className="sign-button">Generate</button>
                 </div>
@@ -63,15 +63,14 @@ export default function Signatures() {
             <div className="signatures-verify box">
                 <div className="b-title">Verify</div>
                 Message
-                <textarea className="b-value">
+                <textarea className="b-value" onChange={(e) => setMessage2(e.target.value)}>
                     Message
                 </textarea>
                 <br />
 
                 Public Key
                 <div className = "b-value sign-pub pubkey">
-                    {publicKey.map((item, index) =>
-                            <div key={index}>{item}, </div>)}
+                    {publicKey}
                 </div>
 
                 Signature

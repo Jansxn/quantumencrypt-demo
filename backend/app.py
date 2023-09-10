@@ -1,12 +1,6 @@
 from flask import Flask, request, jsonify
-import sqlite3
-import hashlib
-import json
-import os
+from dilithium.dilithium import Dilithium2
 import base64
-import hacks.falcon as falcon
-# from hacks.cpake import generate_kyber_keys, encrypt, decrypt
-# from hacks.params import KYBER_512SK_BYTES, KYBER_SYM_BYTES
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -29,10 +23,10 @@ def home():
 #Generate random key pair for the user
 @app.route('/generate', methods=['POST'])
 def generate():
-    sk = falcon.SecretKey(16)
-    pk = falcon.PublicKey(sk)
-    print(sk, pk)
-    return jsonify(sk = [sk.f, sk.F, sk.g, sk.G], pk = pk.h)
+    pk, sk = Dilithium2.keygen()
+    # print("pk1: ", pk)
+    # print("sk1: ", sk, "\n")
+    return jsonify(sk=base64.b64encode(sk).decode(), pk=base64.b64encode(pk).decode())
 
 # def add_padding(data, block_size=32):
 #     padding = block_size - (len(data) % block_size)
@@ -55,19 +49,13 @@ def sign_message():
     data = request.get_json()
     message = data.get('message')
     sk = data.get('sk')
-    message = bytes(message[0],"ascii")
-    s = falcon.SecretKey(16)
-    s.f = sk[0]
-    s.F = sk[1]
-    s.g = sk[2]
-    s.G = sk[3]
-    signed=s.sign(message)
-    print(s)
-    signed = base64.b64encode(signed).decode('utf-8')
-    # print(signed)
-    # signature_bytes = base64.b64decode(signed)
-    # print(signature_bytes)
-    return jsonify(signed=signed)
+    
+    sk = base64.b64decode(sk)
+    # print("sk2: ", sk)
+    print("message: ", message)
+    message = bytes(message,"ascii")
+    signature = Dilithium2.sign(sk, message)
+    return jsonify(signed=base64.b64encode(signature).decode())
 
 @app.route('/verify_signature', methods=['POST'])
 def verify_signature():
@@ -75,16 +63,12 @@ def verify_signature():
     message = data.get('message')
     pk = data.get('pk')
     signed = data.get('signed')
-    message = bytes(message[0],"ascii")
+    
+    pk = base64.b64decode(pk)
+    message = bytes(message,"ascii")
     signed = base64.b64decode(signed)
-    s = falcon.SecretKey(16)
-    s.f = pk[0]
-    s.F = pk[1]
-    s.g = pk[2]
-    s.G = pk[3]
-    publickey = falcon.PublicKey(s)
-    print(s)
-    if (publickey.verify(message, signed)):
+    print("pk2: ", message)
+    if (Dilithium2.verify(pk, message, signed)):
         return jsonify(message="Signature verified successfully")
     else:
         return jsonify(message="Signature verification failed, Try again...")

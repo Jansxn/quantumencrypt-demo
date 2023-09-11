@@ -1,0 +1,72 @@
+.chain{
+    display: flex;
+    gap:20px;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+}
+
+.block{
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    justify-content: center;
+    min-width: 500px;
+    /* height: 200px; */
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #f5f5f5;
+}
+
+.block .block-title{
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+    text-decoration: underline;
+    margin-bottom:5px;
+}
+
+.block .block-info{
+    /* text-decoration: underline; */
+    background-color: rgb(179, 179, 171);
+    padding: 5px;
+    border: 1px solid black;
+}
+
+.block-tx{
+    gap: 2px;
+    display: flex;
+    flex-direction: column;
+}
+
+.block-txs{
+    gap:10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.flex{
+    display: flex;
+}
+
+.block-val{
+    min-width:150px;
+    background-color: rgb(255, 255, 255);
+    text-align: center;
+    border: 1px solid black;
+    text-overflow: auto;
+}
+
+.block input{
+    background-color: yellow;
+}
+
+.block-btn{
+    background-color: rgb(78, 78, 255);
+    color: white;
+    padding: 10px;
+    width: 100px;
+    margin: 0 auto;
+    margin-top: 5px;
+    border-radius: 10px;
+}

@@ -8,6 +8,7 @@ export default function Navbar() {
             <Link to="/keys">Keys</Link>
             <Link to="/signatures">Signatures</Link>
             <Link to="/transaction">Transaction</Link>
+            <Link to="/blockchain">Blockchain</Link>
         </div>
     );
 }

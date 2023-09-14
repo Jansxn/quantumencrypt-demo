@@ -39,6 +39,9 @@ export default function Blockchain (){
                 var nonceVal = "0";
                 var coinbaseVal = document.getElementsByClassName("block-coin-val"+blockno.toString()+user)[0].value;
                 var txsVal = document.getElementsByClassName("block-txs-amt"+blockno.toString()+user);
+                var prevHashVal
+                if (blockno!== 0) prevHashVal = document.getElementsByClassName("block-hash"+(blockno-1).toString()+user)[0].innerHTML;
+                else prevHashVal = "0";
                 var txs = [];
                 if (txsVal.length !== 0){
                     for (let i = 0; i < txsVal.length; i++){
@@ -46,7 +49,7 @@ export default function Blockchain (){
                     }
                 }
             
-                var message = nonceVal.toString() + coinbaseVal.toString() + txs.toString();
+                var message = nonceVal.toString() + coinbaseVal.toString() + txs.toString() + prevHashVal.toString();
             
                 console.log(message);
                 for (var j =0 ;j<maximumNonce;j++){
@@ -56,12 +59,12 @@ export default function Blockchain (){
                         console.log("hash found: " + hash);
                         document.getElementsByClassName("block-nonce-val"+blockno.toString()+user)[0].value = j.toString();
                         document.getElementsByClassName("block-hash"+blockno.toString()+user)[0].innerHTML = hash;
+                        if (blockno !== 0) document.getElementsByClassName("block-prevhash"+blockno.toString()+user)[0].innerHTML = document.getElementsByClassName("block-hash"+(blockno-1).toString()+user)[0].innerHTML;
                         break;
                     }
                 }
             }
         }
-        console.log("Sike");
     }
 
     return(

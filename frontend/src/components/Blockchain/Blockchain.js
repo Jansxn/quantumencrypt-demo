@@ -1,7 +1,7 @@
 import {useState} from "react";
 import Chain from "./Block";
 import './Blockchain.css'
-import { generateKyberKeys, getSignature, verifySignature } from "../KyberFunctions";
+import { sha256 } from "js-sha256";
 
 export default function Blockchain (){
     var [pks, setPks] = useState([
@@ -28,16 +28,39 @@ export default function Blockchain (){
 
 
     function generateKeys(e){
-        // for (let i= 0; i<8; i++){
-        //     generateKyberKeys().then((pk_sk) => {
-        //         // console.log(pk_sk);
-        //         pks[i] = pk_sk[0];
-        //         sks[i] = pk_sk[1];
-        //         setPks(pks);
-        //         setSks(sks);
-        //     });
-        //     // e.setState();
-        // }
+            e.preventDefault();
+            var maximumNonce = 500000;
+        
+        for (var blockno = 0; blockno <= 3; blockno++){
+            var users = ["A", "B", "C"];
+            for (var i = 0; i < users.length; i++){
+                var user = users[i];
+                console.log("mining block " + blockno.toString() + " for user " + user.toString());
+                var nonceVal = "0";
+                var coinbaseVal = document.getElementsByClassName("block-coin-val"+blockno.toString()+user)[0].value;
+                var txsVal = document.getElementsByClassName("block-txs-amt"+blockno.toString()+user);
+                var txs = [];
+                if (txsVal.length !== 0){
+                    for (let i = 0; i < txsVal.length; i++){
+                        txs.push(txsVal[i].value);
+                    }
+                }
+            
+                var message = nonceVal.toString() + coinbaseVal.toString() + txs.toString();
+            
+                console.log(message);
+                for (var j =0 ;j<maximumNonce;j++){
+                    var hash = sha256(message + j.toString());
+                    if (hash.substring(0,4) === "0000"){
+                        // console.log("nonce found: " + i.toString());
+                        console.log("hash found: " + hash);
+                        document.getElementsByClassName("block-nonce-val"+blockno.toString()+user)[0].value = j.toString();
+                        document.getElementsByClassName("block-hash"+blockno.toString()+user)[0].innerHTML = hash;
+                        break;
+                    }
+                }
+            }
+        }
         console.log("Sike");
     }
 

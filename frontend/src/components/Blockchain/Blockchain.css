@@ -1,22 +1,21 @@
-.chain{
+.chain {
     display: flex;
-    gap:20px;
+    gap: 20px;
     overflow-x: auto;
     flex-wrap: nowrap;
-}
-
-.blockchain-title{
-    /* background-color: red; */
-    flex-basis:0;
+  }
+  
+  .blockchain-title {
+    flex-basis: 0;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     gap: 20px;
     align-items: center;
-}
-
-.generate-keys{
-    background-color: rgb(78, 78, 255);
+  }
+  
+  .generate-keys {
+    background-color: rgb(192, 192, 192);
     color: white;
     padding: 10px;
     /* width: 100px; */
@@ -24,9 +23,9 @@
     height: 60px;
     margin-top: 5px;
     border-radius: 10px;
-}
-
-.block{
+  }
+  
+  .block {
     display: flex;
     flex-direction: column;
     /* align-items: center; */
@@ -37,60 +36,68 @@
     border: 1px solid black;
     border-radius: 10px;
     padding: 10px;
-    background-color: #f5f5f5;
-}
-
-.block .block-title{
+    background-color: rgb(130, 240, 130);}
+  
+  .block .block-title {
     font-size: 18px;
     font-weight: bold;
     margin-top: 10px;
     text-decoration: underline;
-    margin-bottom:5px;
-}
-
-.block .block-main{
+    margin-bottom: 5px;
+    color: rgb(59, 96, 133);
+  }
+  
+  .block .block-main {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-}
-
-.block .block-info{
+  }
+  
+  .block .block-info {
     /* text-decoration: underline; */
-    background-color: rgb(179, 179, 171);
-    padding: 5px;
-    border: 1px solid black;
-}
-
-.block-tx{
+    color: rgb(59, 96, 133);
+  }
+  
+  .block-tx {
     gap: 2px;
     display: flex;
     flex-direction: column;
-}
-
-.block-txs{
-    gap:10px;
+  }
+  
+  .block-txs {
+    gap: 10px;
     display: flex;
     flex-direction: column;
-}
-
-.flex{
+  }
+  
+  .flex {
     display: flex;
-}
-
-.block-val{
-    min-width:150px;
-    background-color: rgb(255, 255, 255);
+  }
+  
+  .block-val {
+    max-width: 150px;
+    color: rgb(0, 0, 0);
     text-align: center;
-    border: 1px solid black;
     text-overflow: auto;
     overflow: auto;
-}
-
-.block input{
+    white-space: nowrap;
+    margin-left: 10px;
+    margin-right: 10px;
+    -ms-overflow-style: none;
+  }
+  
+  .block-val::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .block input {
     background-color: yellow;
-}
-
-.block-btn{
+max-height: 25px;
+    color: black;
+    border-radius: 10px;
+  }
+  
+  .block-btn {
     background-color: rgb(78, 78, 255);
     color: white;
     padding: 10px;
@@ -98,15 +105,19 @@
     margin: 0 auto;
     margin-top: 5px;
     border-radius: 10px;
-}
-
-.chain-title{
+  }
+  
+  .chain-title {
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 10px;
     text-decoration: underline;
-}
-
-.chain-holder{
+  }
+  
+  .chain-holder {
     margin-left: 10px;
-}
+  }
+
+  .block-hash-w{
+    min-width: 600px;
+  }

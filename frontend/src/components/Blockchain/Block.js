@@ -1,67 +1,36 @@
-import { useEffect , useState} from "react"
-import { generateKyberKeys, getSignature, verifySignature } from "../KyberFunctions";
+import { useState} from "react"
+import { mine } from "../KyberFunctions";
 import { sha256 } from "js-sha256";
-
-function mine(event, blockno, user){
-    event.preventDefault();
-    var maximumNonce = 500000;
-
-    console.log("mining block " + blockno.toString() + " for user " + user.toString());
-    var nonceVal = "0";
-    var coinbaseVal = document.getElementsByClassName("block-coin-val"+blockno.toString()+user)[0].value;
-    var txsVal = document.getElementsByClassName("block-txs-amt"+blockno.toString()+user);
-    var prevHashVal
-    if (blockno!== 0) prevHashVal = document.getElementsByClassName("block-hash"+(blockno-1).toString()+user)[0].innerHTML;
-    else prevHashVal = "0";
-    var txs = [];
-    if (txsVal.length !== 0){
-        for (let i = 0; i < txsVal.length; i++){
-            txs.push(txsVal[i].value);
-        }
-    }
-
-    var message = nonceVal.toString() + coinbaseVal.toString() + txs.toString() + prevHashVal.toString();
-
-    console.log(message);
-    for (var i =0 ;i<maximumNonce;i++){
-        var hash = sha256(message + i.toString());
-        if (hash.substring(0,4) === "0000"){
-            // console.log("nonce found: " + i.toString());
-            console.log("hash found: " + hash);
-            document.getElementsByClassName("block-nonce-val"+blockno.toString()+user)[0].value = i.toString();
-            document.getElementsByClassName("block-hash"+blockno.toString()+user)[0].innerHTML = hash;
-            if (blockno !== 0) document.getElementsByClassName("block-prevhash"+blockno.toString()+user)[0].innerHTML = document.getElementsByClassName("block-hash"+(blockno-1).toString()+user)[0].innerHTML;
-            break;
-        }
-    }
-}
 
 function Block(props){
     // console.log(props.block.toString());
     var [hash, setHash] = useState("0");
 
     function updateCurrHash(){
-        try{
-            var nonceVal = document.getElementsByClassName("block-nonce-val"+props.block.toString()+props.user)[0].value;
-            var coinbaseVal = document.getElementsByClassName("block-coin-val"+props.block.toString()+props.user)[0].value;
-            var txsVal = document.getElementsByClassName("block-txs-amt"+props.block.toString()+props.user);
-            var prevHashVal;
-            if (props.block!==0) prevHashVal = document.getElementsByClassName("block-hash"+(props.block-1).toString()+props.user)[0].innerHTML;
-            else prevHashVal = "0";
-            var txs = [];
-            if (txsVal.length !== 0){
-                for (let i = 0; i < txsVal.length; i++){
-                    txs.push(txsVal[i].value);
+        for (let blockno = props.block; blockno < 4; blockno++){
+            // if (blockno == 0) {
+            //     document.getElementsByClassName("block-hash"+blockno.toString()+props.user)[0].innerHTML = "0";
+            //     continue;
+            // }
+                    var nonceVal = document.getElementsByClassName("block-nonce-val"+blockno.toString()+props.user)[0].value;
+                    var coinbaseVal = document.getElementsByClassName("block-coin-val"+blockno.toString()+props.user)[0].value;
+                    var txsVal = document.getElementsByClassName("block-txs-amt"+blockno.toString()+props.user);
+                    var prevHashVal;
+                    if (blockno!==0) prevHashVal = document.getElementsByClassName("block-hash"+(blockno-1).toString()+props.user)[0].innerHTML;
+                    else prevHashVal = "0";
+                    var txs = [];
+                    if (txsVal.length !== 0){
+                        for (let i = 0; i < txsVal.length; i++){
+                            txs.push(txsVal[i].value);
+                        }
+                    }
+                    var message = "0" + coinbaseVal.toString() + txs.toString() + prevHashVal.toString();
+                    var h = sha256(message + nonceVal.toString());
+                    document.getElementsByClassName("block-hash"+blockno.toString()+props.user)[0].innerHTML = h;
+                    document.getElementsByClassName("b"+blockno.toString()+props.user)[0].style.backgroundColor = "#ff6666";
+                    if (blockno+1 <= 3) document.getElementsByClassName("block-prevhash"+(blockno+1).toString()+props.user)[0].innerHTML = h
+                    
                 }
-            }
-            var message = "0" + coinbaseVal.toString() + txs.toString() + prevHashVal.toString();
-            setHash(sha256(message + nonceVal.toString()));
-            return sha256(message + nonceVal.toString());
-        }
-        catch{
-            setHash("0");
-            return "0";
-        }
     }
 
     function generateTransactions(txs, blockno, user){
@@ -79,7 +48,6 @@ function Block(props){
             return (
                 <div className="block-tx" key={i}>
                     <div className="flex">
-                        <div className="block-info">Amt</div>
                         <input className={"block-val block-txs-amt" + blockno.toString()+user} defaultValue={tx.amt} onChange={updateCurrHash}/>
                         <div className="block-info">From</div>
                         <div className="block-val">{tx.from}</div>
@@ -96,7 +64,7 @@ function Block(props){
     }
     
     return(
-        <div className={"block b" + props.block.toString()}>
+        <div className={"block b" + props.block.toString() +props.user}>
 
             <div className="block-main">
                 <div className="block-number">
@@ -112,10 +80,11 @@ function Block(props){
 
             <div className="block-title">Coinbase</div>
             <div className="block-coinbase flex">
-                <div className="block-info">Amt</div>
+            <div className="block-val">{props.coin.to}</div>
+            <div className="block-info">gets</div>
+
                 <input className={"block-val block-coin-val" +props.block.toString()+props.user} defaultValue={props.coin.amt} onChange={updateCurrHash}/>
-                <div className="block-info">To</div>
-                <div className="block-val">{props.coin.to}</div>
+               
             </div>
 
             <div className="block-title">Transaction</div>
@@ -125,12 +94,12 @@ function Block(props){
 
             <div className="block-prev">
                 <div className="block-title">Previous Hash</div>
-                <div className={"block-val block-prevhash"+props.block.toString()+props.user}>{0}</div>
+                <div className={"block-val block-hash-w block-prevhash"+props.block.toString()+props.user}>{0}</div>
             </div>
 
             <div className="block-hash">
                 <div className="block-title">Hash</div>
-                <div className={"block-val block-hash"+props.block.toString()+props.user}>{hash}</div>
+                <div className={"block-val block-hash-w block-hash"+props.block.toString()+props.user}>{hash}</div>
             </div>
 
             <button className="block-btn" onClick={(e) => mine(e, props.block, props.user)}>Mine</button>

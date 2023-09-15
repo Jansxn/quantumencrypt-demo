@@ -41,7 +41,6 @@ export const generateKyberKeys = async () => {
     try {
       const response = await axios.post("http://127.0.0.1:5000/generate", {});
       var ret = [response.data.pk, response.data.sk];
-      // console.log(ret);
       return ret;
     } catch (error) {
       return null;

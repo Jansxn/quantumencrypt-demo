@@ -26,52 +26,11 @@ export default function Blockchain (){
         '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'
     ]);
 
-
-    // function generateKeys(e){
-    //         e.preventDefault();
-    //         var maximumNonce = 500000;
-        
-    //     for (var blockno = 0; blockno <= 3; blockno++){
-    //         var users = ["A", "B", "C"];
-    //         for (var i = 0; i < users.length; i++){
-    //             var user = users[i];
-    //             console.log("mining block " + blockno.toString() + " for user " + user.toString());
-    //             var nonceVal = "0";
-    //             var coinbaseVal = document.getElementsByClassName("block-coin-val"+blockno.toString()+user)[0].value;
-    //             var txsVal = document.getElementsByClassName("block-txs-amt"+blockno.toString()+user);
-    //             var prevHashVal
-    //             if (blockno!== 0) prevHashVal = document.getElementsByClassName("block-hash"+(blockno-1).toString()+user)[0].innerHTML;
-    //             else prevHashVal = "0";
-    //             var txs = [];
-    //             if (txsVal.length !== 0){
-    //                 for (let i = 0; i < txsVal.length; i++){
-    //                     txs.push(txsVal[i].value);
-    //                 }
-    //             }
-            
-    //             var message = nonceVal.toString() + coinbaseVal.toString() + txs.toString() + prevHashVal.toString();
-            
-    //             console.log(message);
-    //             for (var j =0 ;j<maximumNonce;j++){
-    //                 var hash = sha256(message + j.toString());
-    //                 if (hash.substring(0,4) === "0000"){
-    //                     // console.log("nonce found: " + i.toString());
-    //                     console.log("hash found: " + hash);
-    //                     document.getElementsByClassName("block-nonce-val"+blockno.toString()+user)[0].value = j.toString();
-    //                     document.getElementsByClassName("block-hash"+blockno.toString()+user)[0].innerHTML = hash;
-    //                     if (blockno !== 0) document.getElementsByClassName("block-prevhash"+blockno.toString()+user)[0].innerHTML = document.getElementsByClassName("block-hash"+(blockno-1).toString()+user)[0].innerHTML;
-    //                     break;
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
-
     return(
         <div>
             <div className="blockchain-title">
                 <h1>Blockchain</h1>
-                <button className="generate-keys" onClick={(e)=>generateKeys(e)}>Generate Keys</button>
+                <button className="generate-keys" onClick={(e)=>generateKeys(e)}>Initialize Blockchain</button>
             </div>
             <div className="chains-holder">
                 <Chain user="A" keys={[pks, sks]}/>

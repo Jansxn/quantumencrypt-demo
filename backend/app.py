@@ -2,18 +2,28 @@ from flask import Flask, request, jsonify
 from dilithium.dilithium import Dilithium2
 import base64
 from flask_cors import CORS
+from ecies.utils import generate_eth_key, generate_key
+from ecies import encrypt, decrypt
 
 app = Flask(__name__)
 CORS(app)
 
 users = {
-
     "user1": "password1",
     "user2": "password2",
 }
 
 # Initialize the SQLite database
+# print("hi")
 
+eth_k = generate_eth_key()
+sk_hex = eth_k.to_hex()
+pk_hex = eth_k.public_key.to_hex()
+# aes_key = get_random_bytes(16)  # 16 bytes (128 bits) key for AES-128
+# data = b'this is a test'
+# print(encrypt(pk_hex, data))
+# global tag
+# print(key.publickey().export_key())
 
 @app.route('/', methods=['GET'])
 def home():
@@ -24,8 +34,9 @@ def home():
 @app.route('/generate', methods=['POST'])
 def generate():
     pk, sk = Dilithium2.keygen()
-    # print("pk1: ", pk)
-    # print("sk1: ", sk, "\n")
+    pk = encrypt(pk_hex, pk)
+    sk = encrypt(pk_hex, sk)
+    # print(encrypt_message(base64.b64encode(sk).decode()))
     return jsonify(sk=base64.b64encode(sk).decode(), pk=base64.b64encode(pk).decode())
 
 # def add_padding(data, block_size=32):
@@ -51,9 +62,10 @@ def sign_message():
     sk = data.get('sk')
     
     sk = base64.b64decode(sk)
-    # print("sk2: ", sk)
     print("message: ", message)
     message = bytes(message,"ascii")
+    sk = decrypt(sk_hex, sk)
+    print("KD Private key " , sk , '\n')
     signature = Dilithium2.sign(sk, message)
     return jsonify(signed=base64.b64encode(signature).decode())
 
@@ -65,6 +77,7 @@ def verify_signature():
     signed = data.get('signed')
     
     pk = base64.b64decode(pk)
+    pk = decrypt(sk_hex, pk)
     message = bytes(message,"ascii")
     signed = base64.b64decode(signed)
     print("pk2: ", message)

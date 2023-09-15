@@ -4,7 +4,7 @@ import { sha256 } from "js-sha256";
 
 function Block(props){
     // console.log(props.block.toString());
-    var [hash, setHash] = useState("0");
+    var [hash, ] = useState("0");
 
     function updateCurrHash(){
         for (let blockno = props.block; blockno < 4; blockno++){
